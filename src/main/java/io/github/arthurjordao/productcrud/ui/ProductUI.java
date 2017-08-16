@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringUI
 @Theme("valo")
-public class ProductUI extends UI implements ProductList {
+public class ProductUI extends UI implements ProductTable {
 
     @Autowired
     private ProductRepository productRepository;
@@ -22,7 +22,7 @@ public class ProductUI extends UI implements ProductList {
     private VerticalLayout leftColumn = new VerticalLayout();
 
     private Grid<Product> productGrid = new Grid<>(Product.class);
-    private ProductForm productForm = new ProductForm(new Product(), this);
+    private ProductForm productForm = new ProductForm(this);
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -45,16 +45,18 @@ public class ProductUI extends UI implements ProductList {
     private void addHeader() {
         Label header = new Label("Products");
         header.addStyleName(ValoTheme.LABEL_H1);
+        root.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         root.addComponent(header);
     }
 
     private void addProductList() {
         updateProducts();
         leftColumn.addComponent(productGrid);
-        productGrid.addItemClickListener(itemClick -> productForm.setProduct(itemClick.getItem()));
+        productGrid.addItemClickListener(itemClick -> productForm.setEntity(itemClick.getItem()));
         productGrid.setColumnOrder("id", "name", "price");
     }
 
+    @Override
     public void updateProducts() {
         productGrid.setItems(productRepository.findAll());
     }
@@ -66,9 +68,14 @@ public class ProductUI extends UI implements ProductList {
     }
 
     @Override
-    public void remove(Product product) {
+    public void removeProduct(Product product) {
         if (productRepository.exists(product.getId()))
             productRepository.delete(product);
         updateProducts();
+    }
+
+    @Override
+    public ProductRepository getProductRepository() {
+        return productRepository;
     }
 }
