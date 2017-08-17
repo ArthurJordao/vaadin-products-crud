@@ -4,10 +4,12 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
 import io.github.arthurjordao.productcrud.model.Product;
 import io.github.arthurjordao.productcrud.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.viritin.label.Header;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 
 @SpringUI
@@ -17,9 +19,9 @@ public class ProductUI extends UI implements ProductTable {
     @Autowired
     private ProductRepository productRepository;
 
-    private VerticalLayout root = new VerticalLayout();
-    private HorizontalLayout grid = new HorizontalLayout();
-    private VerticalLayout leftColumn = new VerticalLayout();
+    private VerticalLayout root = new MVerticalLayout();
+    private HorizontalLayout grid = new MHorizontalLayout();
+    private VerticalLayout leftColumn = new MVerticalLayout();
 
     private Grid<Product> productGrid = new Grid<>(Product.class);
     private ProductForm productForm = new ProductForm(this);
@@ -43,8 +45,7 @@ public class ProductUI extends UI implements ProductTable {
     }
 
     private void addHeader() {
-        Label header = new Label("Products");
-        header.addStyleName(ValoTheme.LABEL_H1);
+        Header header = new Header("Products");
         root.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         root.addComponent(header);
     }
