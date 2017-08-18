@@ -13,4 +13,4 @@ $ mvn spring-boot:run
 ## Travis + Heroku
 You can use the travis and heroku configuration to build deploy this app.
 ## Deployed app
-This app is hosted in heroku in [this link](product-crud.herokuapp.com).
+This app is hosted in heroku in [this link](https://product-crud.herokuapp.com/).
